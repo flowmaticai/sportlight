@@ -13,6 +13,12 @@ const AIRTABLE_TOKEN =
   process.env.AIRTABLE_TOKEN ||
   process.env.VITE_AIRTABLE_TOKEN ||
   process.env.REACT_APP_AIRTABLE_TOKEN;
+const AIRTABLE_TOKEN_SOURCE =
+  process.env.TESTIMONIALS_AIRTABLE_TOKEN ? 'TESTIMONIALS_AIRTABLE_TOKEN' :
+  process.env.AIRTABLE_TOKEN ? 'AIRTABLE_TOKEN' :
+  process.env.VITE_AIRTABLE_TOKEN ? 'VITE_AIRTABLE_TOKEN' :
+  process.env.REACT_APP_AIRTABLE_TOKEN ? 'REACT_APP_AIRTABLE_TOKEN' :
+  'none';
 
 const rateLimitStore = new Map();
 const RATE_LIMIT_WINDOW = 60000;
@@ -83,6 +89,13 @@ export const handler = async (event) => {
   }
 
   try {
+    console.log('submit-testimonial config:', {
+      baseId: AIRTABLE_BASE_ID,
+      tableId: AIRTABLE_TABLE_ID,
+      hasToken: !!AIRTABLE_TOKEN,
+      tokenSource: AIRTABLE_TOKEN_SOURCE
+    });
+
     const clientIp = event.headers['x-forwarded-for'] || event.headers['client-ip'] || 'unknown';
 
     if (!checkRateLimit(clientIp)) {
@@ -157,7 +170,16 @@ export const handler = async (event) => {
       })
     };
   } catch (error) {
-    console.error('Airtable testimonial submission error:', error.message);
+    console.error('Airtable testimonial submission error:', {
+      message: error?.message,
+      statusCode: error?.statusCode,
+      error: error?.error,
+      type: error?.error?.type,
+      baseId: AIRTABLE_BASE_ID,
+      tableId: AIRTABLE_TABLE_ID,
+      hasToken: !!AIRTABLE_TOKEN,
+      tokenSource: AIRTABLE_TOKEN_SOURCE
+    });
 
     if (error.message && error.message.includes('token env var is not set')) {
       return {
