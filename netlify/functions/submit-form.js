@@ -171,6 +171,17 @@ export const handler = async (event) => {
       stack: error.stack
     });
 
+    if (error.message && error.message.includes('token env var is not set')) {
+      return {
+        statusCode: 503,
+        headers,
+        body: JSON.stringify({
+          error: 'SERVICE_UNAVAILABLE',
+          message: 'Contact form is temporarily unavailable. Please try again later.'
+        })
+      };
+    }
+
     if (error.statusCode === 401) {
       return {
         statusCode: 500,

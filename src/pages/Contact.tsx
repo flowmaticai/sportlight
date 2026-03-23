@@ -119,7 +119,18 @@ const Contact = () => {
     } catch (err: any) {
       console.error('Form submission error:', err);
       setShowSetupNotice(true);
-      setError(`Submission Failed: ${err.message || 'Unable to submit your message. Please try contacting us directly.'}`);
+      const rawMessage = err?.message || '';
+      const isConfigOrServerIssue =
+        rawMessage.includes('token env var is not set') ||
+        rawMessage.includes('SERVICE_UNAVAILABLE') ||
+        rawMessage.includes('TABLE_NOT_FOUND') ||
+        rawMessage.includes('UNKNOWN_ERROR');
+
+      setError(
+        isConfigOrServerIssue
+          ? 'We are temporarily unable to accept contact form submissions. Please contact us directly via email or WhatsApp.'
+          : `Submission Failed: ${rawMessage || 'Unable to submit your message. Please try contacting us directly.'}`
+      );
     } finally {
       setIsSubmitting(false);
     }
