@@ -2,7 +2,10 @@ import Airtable from 'airtable';
 
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID || 'appTynyFPGeJNMu3l';
 const AIRTABLE_TABLE_ID = process.env.AIRTABLE_TABLE_ID || 'tblZ8F1YVuk7p6vL2';
-const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
+const AIRTABLE_TOKEN =
+  process.env.AIRTABLE_TOKEN ||
+  process.env.VITE_AIRTABLE_TOKEN ||
+  process.env.REACT_APP_AIRTABLE_TOKEN;
 
 console.log('Airtable Config:', {
   baseId: AIRTABLE_BASE_ID,
@@ -90,7 +93,9 @@ export const handler = async (event) => {
     }
 
     if (!AIRTABLE_TOKEN) {
-      throw new Error('AIRTABLE_TOKEN environment variable is not set');
+      throw new Error(
+        'Airtable token env var is not set. Expected one of: AIRTABLE_TOKEN, VITE_AIRTABLE_TOKEN, REACT_APP_AIRTABLE_TOKEN'
+      );
     }
 
     const formData = JSON.parse(event.body);

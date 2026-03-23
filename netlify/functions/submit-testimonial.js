@@ -1,7 +1,10 @@
 import Airtable from 'airtable';
 
 const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID || 'appWD0RmenfZUo0bp';
-const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN;
+const AIRTABLE_TOKEN =
+  process.env.AIRTABLE_TOKEN ||
+  process.env.VITE_AIRTABLE_TOKEN ||
+  process.env.REACT_APP_AIRTABLE_TOKEN;
 
 const rateLimitStore = new Map();
 const RATE_LIMIT_WINDOW = 60000;
@@ -83,7 +86,9 @@ export const handler = async (event) => {
     }
 
     if (!AIRTABLE_TOKEN) {
-      throw new Error('AIRTABLE_TOKEN environment variable is not set');
+      throw new Error(
+        'Airtable token env var is not set. Expected one of: AIRTABLE_TOKEN, VITE_AIRTABLE_TOKEN, REACT_APP_AIRTABLE_TOKEN'
+      );
     }
 
     const formData = JSON.parse(event.body);
