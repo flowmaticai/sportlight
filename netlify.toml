@@ -1,0 +1,47 @@
+[build]
+functions = "netlify/functions"
+command = "npx vite build"
+publish = "dist"
+
+[functions]
+node_bundler = "esbuild"
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+[[headers]]
+for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://lmsfxezhrvxydfggudzh.supabase.co https://cdn.voiceflow.com https://cdn.jsdelivr.net; worker-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.voiceflow.com; img-src 'self' data: https: blob:; font-src 'self' data: https://fonts.gstatic.com https://cdn.voiceflow.com; media-src 'self' data: blob:; connect-src 'self' https://lmsfxezhrvxydfggudzh.supabase.co https://*.netlify.app https://www.google.com https://cdn.voiceflow.com https://general-runtime.voiceflow.com wss://general-runtime.voiceflow.com https://runtime-api.voiceflow.com https://app.mirror-app.com; frame-src https://app.mirror-app.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+
+[[headers]]
+for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/*.jpeg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

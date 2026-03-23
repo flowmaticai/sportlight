@@ -1,0 +1,73 @@
+import { useState, useEffect, useRef } from 'react';
+
+interface UseCountUpOptions {
+  end: number;
+  duration?: number;
+  start?: number;
+  decimals?: number;
+  suffix?: string;
+  prefix?: string;
+}
+
+export const useCountUp = ({
+  end,
+  duration = 2000,
+  start = 0,
+  decimals = 0,
+  suffix = '',
+  prefix = ''
+}: UseCountUpOptions) => {
+  const [count, setCount] = useState(start);
+  const [isVisible, setIsVisible] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const elementRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setIsVisible(true);
+          setHasAnimated(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, [hasAnimated]);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const startTime = Date.now();
+    const range = end - start;
+
+    const animate = () => {
+      const now = Date.now();
+      const progress = Math.min((now - startTime) / duration, 1);
+
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+      const currentCount = start + range * easeOutQuart;
+
+      setCount(currentCount);
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [isVisible, start, end, duration]);
+
+  const formattedCount = `${prefix}${count.toFixed(decimals)}${suffix}`;
+
+  return { count: formattedCount, ref: elementRef };
+};
