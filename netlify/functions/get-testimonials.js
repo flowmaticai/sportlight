@@ -1,7 +1,15 @@
 import Airtable from 'airtable';
 
-const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID || 'appgNcM4lFde1mLon';
+const AIRTABLE_BASE_ID =
+  process.env.TESTIMONIALS_AIRTABLE_BASE_ID ||
+  process.env.AIRTABLE_BASE_ID ||
+  'appWD0RmenfZUo0bp';
+const AIRTABLE_TABLE_ID =
+  process.env.TESTIMONIALS_AIRTABLE_TABLE_ID ||
+  process.env.AIRTABLE_TABLE_ID ||
+  'tblAMf5eEd6t8ffY9';
 const AIRTABLE_TOKEN =
+  process.env.TESTIMONIALS_AIRTABLE_TOKEN ||
   process.env.AIRTABLE_TOKEN ||
   process.env.VITE_AIRTABLE_TOKEN ||
   process.env.REACT_APP_AIRTABLE_TOKEN;
@@ -45,13 +53,13 @@ export const handler = async (event) => {
   try {
     if (!AIRTABLE_TOKEN) {
       throw new Error(
-        'Airtable token env var is not set. Expected one of: AIRTABLE_TOKEN, VITE_AIRTABLE_TOKEN, REACT_APP_AIRTABLE_TOKEN'
+        'Airtable testimonials token env var is not set. Expected one of: TESTIMONIALS_AIRTABLE_TOKEN, AIRTABLE_TOKEN, VITE_AIRTABLE_TOKEN, REACT_APP_AIRTABLE_TOKEN'
       );
     }
 
     const base = new Airtable({ apiKey: AIRTABLE_TOKEN }).base(AIRTABLE_BASE_ID);
 
-    const records = await base('Testimonials')
+    const records = await base(AIRTABLE_TABLE_ID)
       .select({
         sort: [{ field: 'Created', direction: 'desc' }]
       })

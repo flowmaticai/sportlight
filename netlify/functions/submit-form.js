@@ -1,8 +1,15 @@
 import Airtable from 'airtable';
 
-const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID || 'appTynyFPGeJNMu3l';
-const AIRTABLE_TABLE_ID = process.env.AIRTABLE_TABLE_ID || 'tblZ8F1YVuk7p6vL2';
+const AIRTABLE_BASE_ID =
+  process.env.CONTACT_AIRTABLE_BASE_ID ||
+  process.env.AIRTABLE_BASE_ID ||
+  'appTynyFPGeJNMu3l';
+const AIRTABLE_TABLE_ID =
+  process.env.CONTACT_AIRTABLE_TABLE_ID ||
+  process.env.AIRTABLE_TABLE_ID ||
+  'tblZ8F1YVuk7p6vL2';
 const AIRTABLE_TOKEN =
+  process.env.CONTACT_AIRTABLE_TOKEN ||
   process.env.AIRTABLE_TOKEN ||
   process.env.VITE_AIRTABLE_TOKEN ||
   process.env.REACT_APP_AIRTABLE_TOKEN;
@@ -94,7 +101,7 @@ export const handler = async (event) => {
 
     if (!AIRTABLE_TOKEN) {
       throw new Error(
-        'Airtable token env var is not set. Expected one of: AIRTABLE_TOKEN, VITE_AIRTABLE_TOKEN, REACT_APP_AIRTABLE_TOKEN'
+        'Airtable contact token env var is not set. Expected one of: CONTACT_AIRTABLE_TOKEN, AIRTABLE_TOKEN, VITE_AIRTABLE_TOKEN, REACT_APP_AIRTABLE_TOKEN'
       );
     }
 
