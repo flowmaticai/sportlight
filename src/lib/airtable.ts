@@ -52,7 +52,10 @@ export const submitTestimonial = async (data: TestimonialData) => {
     return { success: true, record: result };
   } catch (error: any) {
     console.error('Error submitting testimonial:', error);
-    return { success: false, error };
+    return {
+      success: false,
+      error: error?.message || 'Unable to submit testimonial. Please try again.'
+    };
   }
 };
 

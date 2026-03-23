@@ -59,11 +59,17 @@ export const handler = async (event) => {
 
     const base = new Airtable({ apiKey: AIRTABLE_TOKEN }).base(AIRTABLE_BASE_ID);
 
-    const records = await base(AIRTABLE_TABLE_ID)
-      .select({
-        sort: [{ field: 'Created', direction: 'desc' }]
-      })
-      .all();
+    let records;
+    try {
+      records = await base(AIRTABLE_TABLE_ID)
+        .select({
+          sort: [{ field: 'Created', direction: 'desc' }]
+        })
+        .all();
+    } catch (selectError) {
+      // Fallback for bases that don't have a "Created" field.
+      records = await base(AIRTABLE_TABLE_ID).select().all();
+    }
 
     const testimonials = records.map(record => ({
       id: record.id,
@@ -72,8 +78,8 @@ export const handler = async (event) => {
       sport: record.get('Sport') || '',
       school: record.get('School/Team') || '',
       training_period: record.get('Training Duration') || '',
-      testimonial: record.get('Experience') || '',
-      rating: record.get('Rating') || 5,
+      testimonial: record.get('Your Experience') || record.get('Experience') || '',
+      rating: record.get('Your Rating') || record.get('Rating') || 5,
       approved: record.get('Approval Status') === 'Approved',
       created_at: record.get('Created') || new Date().toISOString()
     }));

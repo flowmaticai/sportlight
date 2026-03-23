@@ -42,7 +42,7 @@ const TestimonialSubmissionForm = () => {
       const result = await submitTestimonial(formData);
 
       if (!result.success) {
-        throw new Error('Failed to submit testimonial');
+        throw new Error(result.error || 'Failed to submit testimonial');
       }
 
       setSubmitted(true);
@@ -63,7 +63,13 @@ const TestimonialSubmissionForm = () => {
       }, 5000);
     } catch (err) {
       console.error('Error submitting testimonial:', err);
-      setError(t.testimonialForm.errorMessage);
+      const message = err instanceof Error ? err.message : '';
+      const isServerIssue =
+        message.includes('SERVICE_UNAVAILABLE') ||
+        message.includes('token env var is not set') ||
+        message.includes('TABLE_NOT_FOUND') ||
+        message.includes('UNKNOWN_ERROR');
+      setError(isServerIssue ? t.contact.formUnavailable : t.testimonialForm.errorMessage);
     } finally {
       setIsSubmitting(false);
     }
