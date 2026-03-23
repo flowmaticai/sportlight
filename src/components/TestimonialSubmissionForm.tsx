@@ -69,7 +69,13 @@ const TestimonialSubmissionForm = () => {
         message.includes('token env var is not set') ||
         message.includes('TABLE_NOT_FOUND') ||
         message.includes('UNKNOWN_ERROR');
-      setError(isServerIssue ? t.contact.formUnavailable : t.testimonialForm.errorMessage);
+      if (isServerIssue) {
+        setError(t.contact.formUnavailable);
+      } else if (message) {
+        setError(message);
+      } else {
+        setError(t.testimonialForm.errorMessage);
+      }
     } finally {
       setIsSubmitting(false);
     }
