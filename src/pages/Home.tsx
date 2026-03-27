@@ -132,9 +132,10 @@ const Home = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up-delay-4 relative z-20">
-            <LiquidButton asChild className="px-8 py-4 text-white font-display font-bold text-lg btn-glow">
+            <LiquidButton asChild className="bg-flame hover:bg-flame-dark text-white px-8 py-4 rounded-xl font-display font-bold text-lg transition-all duration-300 hover:shadow-xl hover:shadow-flame/30">
               <Link
                 to="/contact"
+                className="inline-flex items-center gap-2 text-white"
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               >
                 <span>{t('hero.bookTrial')}</span>
@@ -143,10 +144,10 @@ const Home = () => {
             </LiquidButton>
             <LiquidButton
               onClick={scrollToServices}
-              className="px-8 py-4 text-white font-display font-bold text-lg btn-glow"
+              className="bg-flame hover:bg-flame-dark text-white px-8 py-4 rounded-xl font-display font-bold text-lg transition-all duration-300 hover:shadow-xl hover:shadow-flame/30 flex-col items-center justify-center gap-1 text-center"
             >
-              <span>{t('hero.explore')}</span>
-              <ChevronDown size={20} />
+              <span className="w-full text-center">{t('hero.explore')}</span>
+              <ChevronDown size={20} className="mx-auto" />
             </LiquidButton>
           </div>
         </div>
