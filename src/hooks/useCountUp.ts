@@ -20,9 +20,10 @@ export const useCountUp = ({
   const [count, setCount] = useState(start);
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const currentElement = elementRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
@@ -33,13 +34,13 @@ export const useCountUp = ({
       { threshold: 0.3 }
     );
 
-    if (elementRef.current) {
-      observer.observe(elementRef.current);
+    if (currentElement) {
+      observer.observe(currentElement);
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current);
+      if (currentElement) {
+        observer.unobserve(currentElement);
       }
     };
   }, [hasAnimated]);

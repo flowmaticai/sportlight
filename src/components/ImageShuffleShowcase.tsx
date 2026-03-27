@@ -19,7 +19,7 @@ const ImageShuffleShowcase = ({
   const [preloadedImages, setPreloadedImages] = useState<Set<number>>(new Set([0, 1]));
 
   useEffect(() => {
-    images.slice(0, 2).forEach((src, idx) => {
+    images.slice(0, 2).forEach((src, _idx) => {
       const img = new Image();
       img.src = src;
     });

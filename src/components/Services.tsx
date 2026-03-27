@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Users, Monitor, Clock, MapPin, Calendar, CheckCircle, Star } from 'lucide-react';
+import { User, Users, Monitor, Clock, MapPin, CheckCircle, Star } from 'lucide-react';
 
 const Services = () => {
   const services = [

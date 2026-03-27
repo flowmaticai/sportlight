@@ -17,7 +17,7 @@ const BackgroundImage = ({
   className = '',
   backgroundPosition = 'center',
   children,
-  priority = false
+  priority: _priority = false
 }: BackgroundImageProps) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { MessageCircle, Mail, Phone, MapPin, Zap, Instagram, Clock, ArrowUp } from 'lucide-react';
+import { MessageCircle, Mail, Phone, MapPin, Instagram, Clock, ArrowUp } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Footer = () => {

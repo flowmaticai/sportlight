@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Monitor, Calendar, MessageCircle, Target, TrendingUp, CheckCircle, Zap, Clock, FileText, BarChart3, Dumbbell, Award, Users, TrendingUp as TrendingUpIcon, Sparkles } from 'lucide-react';
+import { Monitor, Calendar, MessageCircle, Target, TrendingUp, CheckCircle, Zap, Clock, FileText, BarChart3, Dumbbell, Award, TrendingUp as TrendingUpIcon, Sparkles } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../translations/translations';
 

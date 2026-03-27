@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Target, Users, Heart, CheckCircle, Star } from 'lucide-react';
+import { Award, Target, Users, Heart, CheckCircle } from 'lucide-react';
 
 const About = () => {
   const achievements = [

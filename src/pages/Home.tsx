@@ -4,6 +4,7 @@ import { ChevronDown, Users, Award, Target, Zap, Trophy, ArrowRight, CheckCircle
 import { useScrollAnimation, useMultipleScrollAnimations } from '../hooks/useScrollAnimation';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useCountUp } from '../hooks/useCountUp';
+import { LiquidButton } from '../components/ui/liquid-glass-button';
 
 declare global {
   interface Window {
@@ -33,6 +34,7 @@ const InstagramFeed = () => {
         onLoad={handleLoad}
         src="https://app.mirror-app.com/feed-instagram/caa56e48-7850-4d1d-9c87-46c15c448db6/preview"
         style={{ width: '100%', border: 'none', overflow: 'hidden', minHeight: '600px' }}
+        loading="lazy"
         scrolling="no"
         title="Sportlight Instagram Feed"
       />
@@ -130,22 +132,22 @@ const Home = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up-delay-4 relative z-20">
-            <Link
-              to="/contact"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="group relative inline-flex items-center justify-center space-x-2 px-8 py-4 bg-gradient-to-r from-flame to-accent text-white font-display font-bold text-lg rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-flame/50 btn-glow"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-accent to-flame opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <span className="relative z-10">{t('hero.bookTrial')}</span>
-              <ArrowRight size={20} className="relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-            <button
+            <LiquidButton asChild className="px-8 py-4 text-white font-display font-bold text-lg btn-glow">
+              <Link
+                to="/contact"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              >
+                <span>{t('hero.bookTrial')}</span>
+                <ArrowRight size={20} />
+              </Link>
+            </LiquidButton>
+            <LiquidButton
               onClick={scrollToServices}
-              className="group px-8 py-4 bg-charcoal-soft hover:bg-charcoal text-white font-display font-bold text-lg rounded-xl transition-all duration-300 border border-ash/20 hover:border-flame/50 flex items-center justify-center space-x-2 btn-glow"
+              className="px-8 py-4 text-white font-display font-bold text-lg btn-glow"
             >
               <span>{t('hero.explore')}</span>
-              <ChevronDown size={20} className="transition-transform duration-300 group-hover:translate-y-1" />
-            </button>
+              <ChevronDown size={20} />
+            </LiquidButton>
           </div>
         </div>
       </section>
@@ -184,8 +186,8 @@ const Home = () => {
                 <img
                   src="https://lmsfxezhrvxydfggudzh.supabase.co/storage/v1/object/public/testimonial-images/1770620545324-a7u6se.jpeg"
                   alt="Training"
-                  loading="eager"
-                  fetchpriority="high"
+                  loading="lazy"
+                  fetchPriority="low"
                   decoding="async"
                   className="w-full h-full object-cover"
                 />

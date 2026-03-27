@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Quote, Zap, User } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -11,21 +11,21 @@ const TestimonialsCarousel = ({ testimonials, t }: { testimonials: any[], t: any
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  const handleNext = useCallback(() => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+      setIsTransitioning(false);
+    }, 300);
+  }, [testimonials.length]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
     }, 7000);
 
     return () => clearInterval(interval);
-  }, [currentIndex]);
-
-  const handleNext = () => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-      setIsTransitioning(false);
-    }, 300);
-  };
+  }, [handleNext]);
 
   const getVisibleTestimonials = () => {
     const items = [];

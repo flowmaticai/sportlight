@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ChevronUp, HelpCircle, MessageCircle, Mail, Zap } from 'lucide-react';
+import { ChevronDown, HelpCircle, MessageCircle, Mail, Zap } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../translations/translations';
 

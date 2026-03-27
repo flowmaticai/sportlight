@@ -35,7 +35,7 @@ const About = () => {
       clearInterval(bryanInterval);
       clearInterval(moInterval);
     };
-  }, []);
+  }, [bryanImages.length, moImages.length]);
 
   const values = [
     { icon: Target, title: t.about.assessFirst, description: t.about.assessFirstDesc },
