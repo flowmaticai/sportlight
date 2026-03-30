@@ -17,18 +17,6 @@ const initialFormState: FormState = {
   goals: '',
 };
 
-const AIRTABLE_BASE_ID = (import.meta.env.ONLINE_AIRTABLE_BASE_ID ||
-  import.meta.env.VITE_AIRTABLE_BASE_ID ||
-  import.meta.env.AIRTABLE_BASE_ID) as string | undefined;
-const AIRTABLE_TABLE_ID = (import.meta.env.VITE_AIRTABLE_ONLINE_TRAINING_TABLE_ID ||
-  import.meta.env.ONLINE_AIRTABLE_TABLE_ID ||
-  import.meta.env.VITE_AIRTABLE_TABLE_ID ||
-  import.meta.env.AIRTABLE_TABLE_ID ||
-  'tblZ8F1YVuk7p6vL2') as string | undefined;
-const AIRTABLE_PERSONAL_ACCESS_TOKEN = (import.meta.env.ONLINE_AIRTABLE_TOKEN ||
-  import.meta.env.VITE_AIRTABLE_PERSONAL_ACCESS_TOKEN ||
-  import.meta.env.VITE_AIRTABLE_TOKEN) as string | undefined;
-
 const OnlineTrainingInquiryForm = () => {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,40 +31,26 @@ const OnlineTrainingInquiryForm = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!AIRTABLE_PERSONAL_ACCESS_TOKEN || !AIRTABLE_BASE_ID || !AIRTABLE_TABLE_ID) {
-      setErrorMessage('Online training form is temporarily unavailable. Please contact us directly.');
-      return;
-    }
-
     setIsSubmitting(true);
     setIsSubmitted(false);
     setErrorMessage('');
 
     try {
-      // Development-only: move this token to a secure server-side endpoint before production.
-      const response = await fetch(
-        `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_ID}`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${AIRTABLE_PERSONAL_ACCESS_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            fields: {
-              'Full Name': formData.fullName.trim(),
-              Email: formData.email.trim().toLowerCase(),
-              'Phone Number': formData.phoneNumber.trim(),
-              'Main Sport': formData.mainSport.trim(),
-              Goals: formData.goals.trim(),
-            },
-          }),
-        }
-      );
+      const response = await fetch('/.netlify/functions/submit-online-training', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName.trim(),
+          email: formData.email.trim().toLowerCase(),
+          phoneNumber: formData.phoneNumber.trim(),
+          mainSport: formData.mainSport.trim(),
+          goals: formData.goals.trim(),
+        }),
+      });
 
       if (!response.ok) {
         const errorPayload = await response.json().catch(() => ({}));
-        throw new Error(errorPayload?.error?.message || 'Unable to submit form right now.');
+        throw new Error(errorPayload?.message || 'Unable to submit form right now.');
       }
 
       setFormData(initialFormState);
