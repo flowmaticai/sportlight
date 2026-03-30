@@ -17,9 +17,16 @@ const initialFormState: FormState = {
   goals: '',
 };
 
-const AIRTABLE_BASE_ID = 'app1UJ40t4j5I7rQi';
-const AIRTABLE_TABLE_ID = 'tblZ8F1YVuk7p6vL2';
-const AIRTABLE_PERSONAL_ACCESS_TOKEN = (import.meta.env.VITE_AIRTABLE_PERSONAL_ACCESS_TOKEN ||
+const AIRTABLE_BASE_ID = (import.meta.env.ONLINE_AIRTABLE_BASE_ID ||
+  import.meta.env.VITE_AIRTABLE_BASE_ID ||
+  import.meta.env.AIRTABLE_BASE_ID) as string | undefined;
+const AIRTABLE_TABLE_ID = (import.meta.env.VITE_AIRTABLE_ONLINE_TRAINING_TABLE_ID ||
+  import.meta.env.ONLINE_AIRTABLE_TABLE_ID ||
+  import.meta.env.VITE_AIRTABLE_TABLE_ID ||
+  import.meta.env.AIRTABLE_TABLE_ID ||
+  'tblZ8F1YVuk7p6vL2') as string | undefined;
+const AIRTABLE_PERSONAL_ACCESS_TOKEN = (import.meta.env.ONLINE_AIRTABLE_TOKEN ||
+  import.meta.env.VITE_AIRTABLE_PERSONAL_ACCESS_TOKEN ||
   import.meta.env.VITE_AIRTABLE_TOKEN) as string | undefined;
 
 const OnlineTrainingInquiryForm = () => {
@@ -36,7 +43,7 @@ const OnlineTrainingInquiryForm = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!AIRTABLE_PERSONAL_ACCESS_TOKEN) {
+    if (!AIRTABLE_PERSONAL_ACCESS_TOKEN || !AIRTABLE_BASE_ID || !AIRTABLE_TABLE_ID) {
       setErrorMessage('Online training form is temporarily unavailable. Please contact us directly.');
       return;
     }
