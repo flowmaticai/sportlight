@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
-import { Monitor, Calendar, MessageCircle, Target, TrendingUp, CheckCircle, Zap, Clock, FileText, BarChart3, Dumbbell, Award, TrendingUp as TrendingUpIcon, Sparkles } from 'lucide-react';
+import { Monitor, Calendar, Target, TrendingUp, CheckCircle, Zap, Clock, FileText, BarChart3, Dumbbell, Award, TrendingUp as TrendingUpIcon, Sparkles } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../translations/translations';
+import OnlineTrainingInquiryForm from '../components/OnlineTrainingInquiryForm';
 
 const OnlineCoaching = () => {
   const { language } = useLanguage();
@@ -205,59 +206,28 @@ const OnlineCoaching = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/contact"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="bg-gradient-to-r from-flame to-accent hover:from-flame-dark hover:to-accent/90 text-white px-10 py-5 rounded-xl text-lg font-display font-bold transition-all duration-300 hover-scale flex items-center justify-center space-x-2 shadow-lg"
-              >
-                <MessageCircle size={22} />
-                <span>Start Your Journey</span>
-              </Link>
-              <Link
-                to="/contact"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="bg-white/5 hover:bg-white/10 text-white px-10 py-5 rounded-xl text-lg font-display font-bold transition-all duration-300 hover-scale border-2 border-white/20 flex items-center justify-center backdrop-blur-sm"
-              >
-                Learn More
-              </Link>
+            <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 items-start">
+              <div className="xl:col-span-3">
+                <OnlineTrainingInquiryForm />
+              </div>
+              <div className="xl:col-span-2 bg-charcoal/70 rounded-2xl p-6 border border-white/10 backdrop-blur-sm">
+                <h4 className="text-2xl font-display font-black text-white mb-4">Need More Details?</h4>
+                <p className="text-ash mb-6">
+                  Explore all coaching options, timelines, and pricing with a quick consultation.
+                </p>
+                <Link
+                  to="/contact"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="w-full bg-white/5 hover:bg-white/10 text-white px-8 py-4 rounded-xl text-lg font-display font-bold transition-all duration-300 hover-scale border-2 border-white/20 flex items-center justify-center backdrop-blur-sm"
+                >
+                  Learn More
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-24 bg-gradient-to-br from-charcoal via-charcoal-soft to-charcoal grain-overlay relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-flame/20 via-accent/20 to-electric/20"></div>
-        <div className="absolute inset-0 diagonal-lines opacity-10"></div>
-
-        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="bg-charcoal-soft/50 backdrop-blur-md rounded-2xl p-12 border border-flame/20">
-            <div className="flex items-center justify-center mb-6">
-              <Zap size={32} className="text-flame" />
-            </div>
-            <h2 className="text-4xl font-display font-black text-white mb-6">{t.onlineCoaching.readyToStart}</h2>
-            <p className="text-xl text-ash mb-8">
-              {t.onlineCoaching.readyToStartText}
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
-              <Link
-                to="/contact"
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="w-full sm:w-auto bg-flame hover:bg-flame-dark text-white px-8 py-4 rounded-xl text-lg font-display font-bold transition-all duration-300 hover-scale flex items-center justify-center space-x-2"
-              >
-                <MessageCircle size={20} />
-                <span>{t.onlineCoaching.whatsappMoSir}</span>
-              </Link>
-            </div>
-
-            <div className="inline-flex items-center space-x-2 bg-flame/10 px-6 py-3 rounded-full border border-flame/20">
-              <Monitor size={20} className="text-flame" />
-              <span className="text-white font-display font-bold tracking-wide">{t.onlineCoaching.tagline}</span>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
