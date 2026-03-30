@@ -19,7 +19,8 @@ const initialFormState: FormState = {
 
 const AIRTABLE_BASE_ID = 'app1UJ40t4j5I7rQi';
 const AIRTABLE_TABLE_ID = 'tblZ8F1YVuk7p6vL2';
-const AIRTABLE_PERSONAL_ACCESS_TOKEN = import.meta.env.VITE_AIRTABLE_PERSONAL_ACCESS_TOKEN as string | undefined;
+const AIRTABLE_PERSONAL_ACCESS_TOKEN = (import.meta.env.VITE_AIRTABLE_PERSONAL_ACCESS_TOKEN ||
+  import.meta.env.VITE_AIRTABLE_TOKEN) as string | undefined;
 
 const OnlineTrainingInquiryForm = () => {
   const [formData, setFormData] = useState<FormState>(initialFormState);
